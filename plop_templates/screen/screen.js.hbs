@@ -1,7 +1,18 @@
-
-import React from 'react';
+import React from "react";
+import { useSelector } from "react-redux";
+{{!-- Only if an action from a slice is used : --}}
+{{!-- {{#ifIn props "source" "state"}}
+import { {{#each props}}{{#ifEquals this.source "state" }} {{properCase this.slice}}Slice, {{/ifEquals}}{{/each}} } from "slices";
+{{/ifIn}} --}}
 import { {{properCase name}}Template } from 'templates'
 
-const {{properCase name}} = ({}) => <{{properCase name}}Template />;
+const {{properCase name}} = ({ {{#ifIn props "source" "route"}}route{{/ifIn}} }) => {{#ifIn props "source" "state"}} {
+    {{#each props}} {{#ifEquals this.source "state" }} const {{this.name}} = useSelector((state) => state.{{this.slice}}.{{this.name}}); {{/ifEquals}} {{/each}}
+    
+    return <{{properCase name}}Template {{#each props}}{{this.name}}={ {{~this.name~}} } {{/each}} />;
+}
+{{else}}
+<{{properCase name}}Template {{#each props}}{{this.name}}={ {{~this.name~}} } {{/each}} />;
+{{/ifIn}}
 
 export default {{properCase name}};

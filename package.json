@@ -22,5 +22,8 @@
   "homepage": "https://github.com/BouchraBenlamkadem/generator#readme",
   "devDependencies": {
     "plop": "^2.7.4"
+  },
+  "dependencies": {
+    "inquirer-recursive": "0.0.7"
   }
 }
