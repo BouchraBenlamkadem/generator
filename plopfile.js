@@ -27,7 +27,7 @@ module.exports = function (plop) {
             {
               type: 'list',
               name: 'source',
-              message: 'What is propsource ?',
+              message: 'What is the prop source ?',
               choices: () => [
                 {
                   name: "Add the prop from route",
@@ -42,7 +42,7 @@ module.exports = function (plop) {
             {
               type: 'input',
               name: 'name',
-              message: 'Name: ',
+              message: 'Prop name: ',
             },
             {
               when: answer => answer.source === "state",

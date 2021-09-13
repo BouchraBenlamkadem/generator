@@ -1,18 +1,20 @@
 import React from "react";
+{{#ifIn props "source" "state"}}
 import { useSelector } from "react-redux";
+{{/ifIn}}
 {{!-- Only if an action from a slice is used : --}}
 {{!-- {{#ifIn props "source" "state"}}
 import { {{#each props}}{{#ifEquals this.source "state" }} {{properCase this.slice}}Slice, {{/ifEquals}}{{/each}} } from "slices";
 {{/ifIn}} --}}
 import { {{properCase name}}Template } from 'templates'
 
-const {{properCase name}} = ({ {{#ifIn props "source" "route"}}route{{/ifIn}} }) => {{#ifIn props "source" "state"}} {
-    {{#each props}} {{#ifEquals this.source "state" }} const {{this.name}} = useSelector((state) => state.{{this.slice}}.{{this.name}}); {{/ifEquals}} {{/each}}
+const {{properCase name}} = ({ {{~#ifIn props "source" "route"}} route {{/ifIn~}} }) => {{#ifIn props "source" "state"}} { {{#each props}}
+    {{#ifEquals this.source "state" }}const {{this.name}} = useSelector((state) => state.{{this.slice}}.{{this.name}});{{/ifEquals}}{{/each}}
     
-    return <{{properCase name}}Template {{#each props}}{{this.name}}={ {{~this.name~}} } {{/each}} />;
+    return <{{properCase name}}Template {{#each props}}{{this.name}}={ {{~#ifEquals this.source "state" }}{{this.name}}{{else}}route.params.{{this.name}}{{/ifEquals~}} } {{/each}} />;
 }
 {{else}}
-<{{properCase name}}Template {{#each props}}{{this.name}}={ {{~this.name~}} } {{/each}} />;
+<{{properCase name}}Template {{#each props}}{{this.name}}={route.params.{{this.name~}} } {{/each}} />;
 {{/ifIn}}
 
 export default {{properCase name}};
