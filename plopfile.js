@@ -95,8 +95,22 @@ module.exports = function (plop) {
           actions.push({
             type: "append",
             path: `{{path}}/slices/${helpers.capitalize(prop.slice)}Slice.js`,
-            template: `    ${prop.name}:${prop.initial},`,
+            template: `    ${prop.name}: ${prop.initial},`,
             pattern: "initialState: {",
+          });
+          actions.push({
+            type: "append",
+            path: `{{path}}/slices/${helpers.capitalize(prop.slice)}Slice.js`,
+            // prettier-ignore
+            template: `    reset${helpers.capitalize(prop.name)}: (state, action) => { state.${prop.name} = ${prop.initial}; },`,
+            pattern: "reducers: {",
+          });
+          actions.push({
+            type: "append",
+            path: `{{path}}/slices/${helpers.capitalize(prop.slice)}Slice.js`,
+            // prettier-ignore
+            template: `    set${helpers.capitalize(prop.name)}: (state, action) => { state.${prop.name} = action.payload; },`,
+            pattern: "reducers: {",
           });
           // actions.push({
           //   type: "add",
