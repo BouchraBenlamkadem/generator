@@ -41,15 +41,15 @@ module.exports = function (plop) {
           },
           {
             when: (answer) => answer.source === "state",
-            type: "confirm",
-            name: "createNewSlice",
-            message: "Create new Slice ?",
-          },
-          {
-            when: (answer) => answer.source === "state",
             type: "input",
             name: "slice",
             message: "Slice: ",
+          },
+          {
+            when: (answer) => answer.source === "state",
+            type: "confirm",
+            name: "new",
+            message: "Is it a new state object ?",
           },
           {
             type: "input",
@@ -57,7 +57,7 @@ module.exports = function (plop) {
             message: "Prop name: ",
           },
           {
-            when: (answer) => answer.createNewSlice,
+            when: (answer) => answer.new,
             type: "input",
             name: "initial",
             message: "Prop initial value: ",
@@ -91,17 +91,23 @@ module.exports = function (plop) {
         },
       ];
       data.props.forEach((prop) => {
-        if (prop.createNewSlice) {
-          actions.push({
-            type: "add",
-            path: `{{path}}/slices/${prop.slice}Slice.js`,
-            templateFile: "plop_templates/screen/slice.js.hbs",
-          });
+        if (prop.new) {
           actions.push({
             type: "append",
-            path: "{{path}}/slices/index.js",
-            template: `export {default as ${prop.slice}Slice, } from "./${prop.slice}Slice";`,
+            path: `{{path}}/slices/${helpers.capitalize(prop.slice)}Slice.js`,
+            template: `    ${prop.name}:${prop.initial},`,
+            pattern: "initialState: {",
           });
+          // actions.push({
+          //   type: "add",
+          //   path: `{{path}}/slices/${prop.slice}Slice.js`,
+          //   templateFile: "plop_templates/screen/slice.js.hbs",
+          // });
+          // actions.push({
+          //   type: "append",
+          //   path: "{{path}}/slices/index.js",
+          //   template: `export {default as ${prop.slice}Slice, } from "./${prop.slice}Slice";`,
+          // });
         }
       });
 

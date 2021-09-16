@@ -7,4 +7,10 @@ module.exports = {
   ifEquals: function (first, second, options) {
     return first == second ? options.fn(this) : options.inverse(this);
   },
+  object: function (object, options) {
+    return JSON.stringify(object);
+  },
+  capitalize: function (text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  },
 };
