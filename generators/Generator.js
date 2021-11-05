@@ -25,7 +25,7 @@ module.exports = {
         type: "append",
         path: "{{path}}/templates/index.js",
         template:
-          'export {default as {{ properCase name }}Template, } from "./{{ properCase name }}Template";',
+          'export {default as {{ properCase name }}Template } from "./{{ properCase name }}Template";',
         data: config,
       },
       {
@@ -38,7 +38,7 @@ module.exports = {
         type: "append",
         path: "{{path}}/screens/index.js",
         template:
-          'export {default as {{ properCase name }}, } from "./{{ properCase name }}";',
+          'export {default as {{ properCase name }} } from "./{{ properCase name }}";',
         data: config,
       },
     ];
@@ -47,15 +47,15 @@ module.exports = {
         actions.push({
           type: "append",
           path: `{{path}}/slices/${helpers.capitalize(prop.slice)}Slice.js`,
-          template: `    ${prop.name}: ${prop.initial},`,
-          pattern: "initialState: {",
+          template: `  ${prop.name}: ${prop.initial},`,
+          pattern: "initialState = {",
           data: config,
         });
         actions.push({
           type: "append",
           path: `{{path}}/slices/${helpers.capitalize(prop.slice)}Slice.js`,
           // prettier-ignore
-          template: `    reset${helpers.capitalize(prop.name)}: (state, action) => { state.${prop.name} = ${prop.initial}; },`,
+          template: `    reset${helpers.capitalize(prop.name)}: (state, action) => { state.${prop.name} = initialState.${prop.name}; },`,
           pattern: "reducers: {",
           data: config,
         });

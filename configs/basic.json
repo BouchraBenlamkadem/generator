@@ -1,6 +1,6 @@
 {
   "path": "C:/Users/BOUCHRA/Desktop/example/src",
-  "name": "a",
+  "name": "aaaaaa",
   "props": [
     {
       "source": "route",
@@ -11,7 +11,7 @@
       "slice": "welcome",
       "new": true,
       "name": "prop2",
-      "initial": "initialProp2"
+      "initial": "\"initialProp2\""
     }
   ]
 }
