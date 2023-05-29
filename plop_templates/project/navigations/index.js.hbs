@@ -1,0 +1,73 @@
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Alert, Loader, Message } from "components";
+import React from "react";
+import * as screens from "screens";
+import { rootNavigation } from "utils";
+{{#ifIn packages "redux" }}
+import { useDispatch, useSelector } from "react-redux";
+import { InfoSlice } from "slices";
+{{/ifIn}}
+
+const Stack = createNativeStackNavigator();
+
+const MainNavigatorConfig = {
+  header: null,
+  headerMode: "none",
+  screenOptions: { headerShown: false }
+};
+
+function RootStack({ initialPage }) {
+  return (
+    <Stack.Navigator {...MainNavigatorConfig} initialRouteName={initialPage ?? "Home"}>
+      {Object.entries(screens).map(([screen, component]) => (
+        <Stack.Screen key={screen} name={screen} component={component} />
+      ))}
+    </Stack.Navigator>
+  );
+}
+
+export default function Navigator({ initialPage }) {
+{{#ifIn packages "redux" }}
+  const isLoading = useSelector((state) => state.info.loading.length > 0);
+  const globalAlerts = useSelector((state) => state.info.alerts);
+  const messages = useSelector((state) => state.info.messages);
+  const dispatch = useDispatch();
+{{/ifIn}}
+
+  return (
+    <NavigationContainer ref={rootNavigation.navigationRef}>
+      <RootStack initialPage={initialPage} />
+    {{#ifIn packages "redux" }}
+      <Message messages={messages} />
+      {isLoading && <Loader />}
+      {globalAlerts.length > 0 &&
+        globalAlerts.map(
+          (globalAlert, index) =>
+            !!globalAlert &&
+            !globalAlert?.hidden && (
+              <Alert
+                key={index}
+                icon={globalAlert.icon}
+                text={globalAlert.text}
+                isWarning={globalAlert.isWarning}
+                cancelText={globalAlert.cancelText}
+                confirmText={globalAlert.confirmText}
+                isVisible={globalAlert !== null}
+                onConfirm={() => {
+                  globalAlert.onConfirm && globalAlert.onConfirm();
+                }}
+                onCancel={() => {
+                  globalAlert.onCancel && globalAlert.onCancel();
+                }}
+                onDone={() => {
+                  dispatch(InfoSlice.default.actions.removeAlert(index));
+                  globalAlert.onDone && globalAlert.onDone();
+                }}
+              />
+            )
+        )}
+    {{/ifIn}}
+    </NavigationContainer>
+  );
+}

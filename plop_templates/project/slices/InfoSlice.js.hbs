@@ -1,0 +1,49 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+/**
+ * Slice used for displaying information to user across app:
+ * loading : shows/hides loader component
+ * messages : array of messages to show user
+ * alerts : array of alerts to show user
+ * testToken : test variable used to cancel token test condition on actions if refresh token middleware failed
+ */
+
+const slice = createSlice({
+  name: "info",
+  initialState: {
+    loading: [], // Array instead of Boolean in order to keep app loading until all loaders are removed
+    alerts: [], 
+    messages: [],
+    testToken: true 
+  },
+  reducers: {
+    setLoading: (state, action) => {
+      action.payload ? state.loading.push(1) : state.loading.pop();
+    },
+    addAlert: (state, action) => {
+      state.alerts = state.alerts.map((alert) => ({ ...alert, hidden: true }));
+      state.alerts.push(action.payload);
+    },
+    removeAlert: (state, action) => {
+      //removed only by alert visibility, keep in state as otherwise the following alerts won't show up
+    },
+    addMessage: (state, action) => {
+      const length = state.messages.length;
+      // avoid occurences ---->
+      if (length == 0 || state.messages[length - 1].message != action.payload.message)
+        state.messages.push(action.payload);
+    },
+    deleteMessage: (state, action) => {
+      const messages = state.messages.filter((_, index) => index !== action.payload);
+      state.messages = messages;
+    },
+    clearMessages: (state, action) => {
+      state.messages = [];
+    },
+    setTestToken: (state, action) => {
+      state.testToken = action.payload;
+    }
+  }
+});
+
+export default slice;

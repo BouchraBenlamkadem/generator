@@ -1,0 +1,54 @@
+import React, { useEffect, useRef, useState } from "react";
+import { AppState } from "react-native";
+
+const Initiator = ({ setDataReady, setInitialPage, children }) => {
+  const [loadingStoredData, setLoadingStoredData] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      /*
+      * stored data loading ...
+      */
+      setLoadingStoredData(false);
+    })();
+  }, []);
+
+  /**
+   * Set data ready upon data loading done
+   */
+  useEffect(() => {
+    setDataReady(!loadingStoredData);
+  }, [loadingStoredData]);
+
+  /**
+   * Running checks on app state change from inactive or in background to active
+   */
+  const appState = useRef(AppState.currentState);
+
+  useEffect(() => {
+    const eventListener = AppState.addEventListener("change", (nextAppState) =>
+      _handleAppStateChange(nextAppState, {})
+    );
+
+    return () => {
+      eventListener.remove();
+    };
+  }, [ /* data ( user , ...) */]);
+
+  /**
+   * check on expired token or data 
+   *
+   * @param {String} nextAppState
+   * @param {Object} data
+   */
+  const _handleAppStateChange = async (nextAppState, {}) => {
+    if (appState.current.match(/inactive|background/) && nextAppState === "active") {
+      // Run checks and handle results
+    }
+    appState.current = nextAppState;
+  };
+
+  return <>{children}</>;
+};
+
+export default Initiator;

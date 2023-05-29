@@ -1,0 +1,75 @@
+{
+  "path": "C:/Users/BOUCHRA/VSCode/generators/",
+  "name": "RNMobileGenerator",
+  "description": "GUI desktop generator that uses drag & drop functionality to generate a mobile app code.",
+  "author": "Bubble",
+  "repositoryUrl": null,
+  "API": null,
+  
+  "referenceRepositoryUrl": "raw.githubusercontent.com/iwaco-dev/Iwasales-front/Master",
+  "templates":[{
+    "name":"Catalog",
+    "layout":{
+      "header":{
+        "left":[{"type":"back"},{"type":"title"},"search","options"],
+        "right":[{"type":"search"},{"type":"options"}]
+      },
+      "rows":[
+        {
+          "data":[],
+          "clickable":true,
+          "Component":"image"
+        },
+        {
+          "list":true,
+          "columns":2,
+          "mock": true,
+          "clickable":true,
+          "Component":"Card"
+        }
+      ],
+      "floating":[
+        {
+          "count":1,
+          "position": "right,bottom"
+        }
+      ],
+      "bottom":null
+    }
+  }],
+  "modules":[{
+    "name": "Player",
+    "params": [],
+    "state": [["playing","boolean"]],
+    "global": [],
+    "layout": {
+      "style":{"padding":"20"},
+      "header":{
+        "center": { "type": "icon", "data": "headset" ,"options":"ionicons"}
+      },
+      "rows":[{
+        "center":{ "type": "image" },
+        "flex":"2"
+      },{
+        "center":{ "type": "progress", "data": "headset" ,"options":"ionicons"},
+        "flex":"1"
+        }],
+      "bottom":{
+        "style":{"justifyContent":"space-around"},
+        "left":[{"type":"clickable-icon","data": "play-back-outline" ,"options":"ionicons" }],
+        "center":[{"type":"clickable-icon","data": ["caret-forward-circle-outline","pause-circle-outline"] ,"options":"ionicons" }],
+        "right":[{"type":"clickable-icon","data": "play-forward-outline" ,"options":"ionicons" }]
+      }
+    }
+  }],
+  "icons":{
+    "person":"",
+    "eye-on":"",
+    "eye-off":"",
+    "save":"",
+    "notification":"",
+    "back":"",
+    "search":"",
+    "options":""
+  }
+}

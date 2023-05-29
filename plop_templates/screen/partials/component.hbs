@@ -1,0 +1,3 @@
+<{{properCase this.name}} {{#ifEquals this.children null }}/{{/ifEquals}}>
+{{#ifTypeof this.children "string" }}{{this.children}}{{else}}{{#each this.children}}{{> component }}{{/each}}{{/ifTypeof}}
+{{#ifNotEquals this.children null }}</{{properCase this.name}}>{{/ifNotEquals}}

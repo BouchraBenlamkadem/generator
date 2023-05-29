@@ -1,0 +1,46 @@
+import { default as React, useEffect, useState } from "react";
+import SplashScreen from "react-native-splash-screen";
+import Initiator from "./Initiator";
+{{#ifIn packages "navigation" }}
+import Navigation from "navigations";
+{{/ifIn}}
+{{#ifIn packages "redux" }}
+import { Provider } from "react-redux";
+import store from "store";
+{{/ifIn}}
+
+{{#ifIn packages "axios" }}
+import { decode, encode } from "base-64";
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
+{{/ifIn}}
+
+const App = () => {
+  const [dataReady, setDataReady] = useState(false);
+  const [initialPage, setInitialPage] = useState(null);
+
+  useEffect(() => {
+    dataReady && initialPage && SplashScreen.hide();
+  }, [dataReady, initialPage]);
+
+  return (
+  {{#ifIn packages "redux" }}
+    <Provider store={store}>
+  {{/ifIn}}
+      <Initiator setDataReady={setDataReady} setInitialPage={setInitialPage}>
+      {{#ifIn packages "navigation" }}
+        {initialPage && <Navigation initialPage={initialPage} />}
+      {{/ifIn}}
+      </Initiator>
+  {{#ifIn packages "redux" }}
+    </Provider>
+  {{/ifIn}}
+  );
+};
+
+export default App;

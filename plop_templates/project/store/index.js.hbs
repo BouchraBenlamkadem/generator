@@ -1,0 +1,14 @@
+import { configureStore } from "@reduxjs/toolkit";
+import {InfoSlice } from "slices";
+import { giftMiddleware, refreshTokenMiddleware } from "./middleware";
+
+export default configureStore({
+  reducer: {
+    info: InfoSlice.default.reducer,
+  },
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware({
+      serializableCheck: false
+    })
+  ]
+});
