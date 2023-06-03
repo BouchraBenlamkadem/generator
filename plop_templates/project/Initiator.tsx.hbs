@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 
-const Initiator = ({ setDataReady, setInitialPage, children }) => {
+const Initiator = ({ setDataReady, children }:any) => {
   const [loadingStoredData, setLoadingStoredData] = useState(true);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Initiator = ({ setDataReady, setInitialPage, children }) => {
    * @param {String} nextAppState
    * @param {Object} data
    */
-  const _handleAppStateChange = async (nextAppState, {}) => {
+  const _handleAppStateChange = async (nextAppState: any, {}) => {
     if (appState.current.match(/inactive|background/) && nextAppState === "active") {
       // Run checks and handle results
     }

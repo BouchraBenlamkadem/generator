@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Alert, Loader, Message } from "components";
+//import { Alert, Loader, Message } from "components";
 import React from "react";
 import * as screens from "screens";
 import { rootNavigation } from "utils";
@@ -17,21 +17,21 @@ const MainNavigatorConfig = {
   screenOptions: { headerShown: false }
 };
 
-function RootStack({ initialPage }) {
+function RootStack({ initialPage }:any) {
   return (
     <Stack.Navigator {...MainNavigatorConfig} initialRouteName={initialPage ?? "Home"}>
-      {Object.entries(screens).map(([screen, component]) => (
+      {Object.entries(screens).map(([screen, component]:any) => (
         <Stack.Screen key={screen} name={screen} component={component} />
       ))}
     </Stack.Navigator>
   );
 }
 
-export default function Navigator({ initialPage }) {
+export default function Navigator({ initialPage }:any) {
 {{#ifIn packages "redux" }}
-  const isLoading = useSelector((state) => state.info.loading.length > 0);
-  const globalAlerts = useSelector((state) => state.info.alerts);
-  const messages = useSelector((state) => state.info.messages);
+  const isLoading = useSelector((state:any) => state.info.loading.length > 0);
+  const globalAlerts = useSelector((state:any) => state.info.alerts);
+  const messages = useSelector((state:any) => state.info.messages);
   const dispatch = useDispatch();
 {{/ifIn}}
 
@@ -39,11 +39,11 @@ export default function Navigator({ initialPage }) {
     <NavigationContainer ref={rootNavigation.navigationRef}>
       <RootStack initialPage={initialPage} />
     {{#ifIn packages "redux" }}
-      <Message messages={messages} />
+      {/* <Message messages={messages} />
       {isLoading && <Loader />}
       {globalAlerts.length > 0 &&
         globalAlerts.map(
-          (globalAlert, index) =>
+          (globalAlert:any, index:any) =>
             !!globalAlert &&
             !globalAlert?.hidden && (
               <Alert
@@ -66,7 +66,7 @@ export default function Navigator({ initialPage }) {
                 }}
               />
             )
-        )}
+        )} */}
     {{/ifIn}}
     </NavigationContainer>
   );

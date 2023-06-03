@@ -17,30 +17,30 @@ const slice = createSlice({
     testToken: true 
   },
   reducers: {
-    setLoading: (state, action) => {
+    setLoading: (state:any, action:any) => {
       action.payload ? state.loading.push(1) : state.loading.pop();
     },
-    addAlert: (state, action) => {
-      state.alerts = state.alerts.map((alert) => ({ ...alert, hidden: true }));
+    addAlert: (state:any, action:any) => {
+      state.alerts = state.alerts.map((alert:any) => ({ ...alert, hidden: true }));
       state.alerts.push(action.payload);
     },
-    removeAlert: (state, action) => {
+    removeAlert: (state:any, action:any) => {
       //removed only by alert visibility, keep in state as otherwise the following alerts won't show up
     },
-    addMessage: (state, action) => {
+    addMessage: (state:any, action:any) => {
       const length = state.messages.length;
       // avoid occurences ---->
       if (length == 0 || state.messages[length - 1].message != action.payload.message)
         state.messages.push(action.payload);
     },
-    deleteMessage: (state, action) => {
-      const messages = state.messages.filter((_, index) => index !== action.payload);
+    deleteMessage: (state:any, action:any) => {
+      const messages = state.messages.filter((_:any, index:number) => index !== action.payload);
       state.messages = messages;
     },
-    clearMessages: (state, action) => {
+    clearMessages: (state:any, action:any) => {
       state.messages = [];
     },
-    setTestToken: (state, action) => {
+    setTestToken: (state:any, action:any) => {
       state.testToken = action.payload;
     }
   }

@@ -67,7 +67,8 @@ module.exports = {
       )
     _data.packages.includes('db') && 
       packages.push(
-      "react-native-sqlite-storage"
+      "react-native-sqlite-storage",
+      "@types/react-native-sqlite-storage"
       )
     _data.packages.includes('redux') && 
       packages.push(
@@ -77,7 +78,8 @@ module.exports = {
     _data.packages.includes('axios') && 
       packages.push(
         "axios",
-        "base-64"
+        "base-64",
+      "@types/base-64",
       )
     _data.packages.includes('forms') && 
       packages.push(
@@ -104,6 +106,22 @@ module.exports = {
       stdio: ['inherit', 'inherit', 'inherit'],
     })
 
+    let dev_packages = [
+      "babel-plugin-module-resolver",
+      "eslint-config-prettier ",
+      "eslint-import-resolver-babel-module ",
+      "eslint-plugin-import ",
+      "eslint-plugin-prettier ",
+      "eslint-plugin-react ",
+      "eslint-plugin-react-hooks ",
+      "eslint-plugin-unused-imports ",
+      "@types/node"
+    ]
+    execSync(`npm install --save-dev ${dev_packages.join(' ')}`,{
+      cwd: data.path + data.name,
+      stdio: ['inherit', 'inherit', 'inherit'],
+    })
+
     // 3. Add scripts 
     const package_json_path = resolve(data.path+data.name+'/package.json');
     const package_json = require(package_json_path);
@@ -119,55 +137,53 @@ module.exports = {
     let actions= []
 
     const emptyFiles = [
-      'src/assets/fonts/index.js',
-      'src/assets/icons/index.js',
-      'src/assets/images/index.js',
-      'src/components/index.js',
-      'src/screens/index.js',
-      'src/services/index.js',
-      'src/slices/index.js',
-      'src/store/middleware/index.js',
-      'src/templates/index.js',
-      'src/utils/helpers.js',
-      'src/utils/queries.js',
-      'src/utils/synchronisation.js',
-      // 'Initiator.js',
+      'src/assets/fonts/index.tsx',
+      'src/assets/icons/index.tsx',
+      'src/assets/images/index.tsx',
+      'src/components/index.tsx',
+      'src/screens/index.tsx',
+      'src/services/index.tsx',
+      'src/slices/index.tsx',
+      'src/store/middleware/index.tsx',
+      'src/templates/index.tsx',
+      'src/utils/helpers.tsx',
+      'src/utils/queries.tsx',
+      'src/utils/synchronisation.tsx',
     ];
     
     const initiatedFiles = [
-      'src/animations/transition.js',
-      'src/animations/index.js',
-      'src/components/Common/Alert.js',
-      'src/components/Common/Button.js',
-      'src/components/Common/Card.js',
-      'src/components/Common/Header.js',
-      'src/components/Auth/Input.js',
-      'src/components/Common/Message.js',
-      'src/components/Common/StatusBar.js',
-      'src/components/Auth/Loader.js',
-      // 'src/navigations/index.js',
-      // 'src/store/index.js',
-      'src/styles/index.js',
-      'src/styles/colors.js',
-      'src/styles/mixins.js',
-      'src/styles/spacing.js',
-      'src/styles/typography.js',
-      'src/utils/index.js',
-      'src/utils/api.js',
-      // 'src/utils/constants.js',
-      'src/utils/database.js',
-      'src/utils/localStorage.js',
-      'src/utils/rootNavigation.js',
+      'src/animations/transitions.tsx',
+      'src/animations/index.tsx',
+      // 'src/components/Common/Alert.tsx',
+      // 'src/components/Common/Button.tsx',
+      // 'src/components/Common/Card.tsx',
+      // 'src/components/Common/Header.tsx',
+      // 'src/components/Auth/Input.tsx',
+      // 'src/components/Common/Message.tsx',
+      'src/components/Common/StatusBar.tsx',
+      'src/components/Common/Loader.tsx',
+      'src/styles/index.tsx',
+      'src/styles/colors.tsx',
+      'src/styles/mixins.tsx',
+      'src/styles/spacing.tsx',
+      'src/styles/typography.tsx',
+      'src/utils/index.tsx',
+      'src/utils/api.tsx',
+      'src/utils/database.tsx',
+      'src/utils/localStorage.tsx',
+      'src/utils/rootNavigation.tsx',
       '.eslintrc.js',
       '.prettierrc.js',
       'editor.settings.jsonc',
-      'jsconfig.json',
+      'babel.config.js',
+      'tsconfig.json'
     ];
     
     [...emptyFiles,...initiatedFiles].forEach(file => {
       actions.push({
         type: 'add',
         path: `{{ path }}/{{ name }}/${file}`,
+        template:"export const _default = null",
         data,
         skipIfExists: true
       })
@@ -194,21 +210,21 @@ module.exports = {
     
     actions.push({
       type: "add",
-      path: "{{ path }}/{{ name }}/src/navigations/index.js",
-      templateFile: "plop_templates/project/navigations/index.js.hbs",
+      path: "{{ path }}/{{ name }}/src/navigations/index.tsx",
+      templateFile: "plop_templates/project/navigations/index.tsx.hbs",
       data,
     })
     
     actions.push({
       type: "add",
-      path: "{{ path }}/{{ name }}/src/slices/InfoSlice.js",
-      templateFile: "plop_templates/project/slices/InfoSlice.js.hbs",
+      path: "{{ path }}/{{ name }}/src/slices/InfoSlice.tsx",
+      templateFile: "plop_templates/project/slices/InfoSlice.tsx.hbs",
       data,
     })
       
     actions.push({
       type: "append",
-      path: "{{ path }}/{{ name }}/src/slices/index.js",
+      path: "{{ path }}/{{ name }}/src/slices/index.tsx",
       template:
         'import * as InfoSlice from "./InfoSlice";\nexport { InfoSlice };',
       data,
@@ -216,38 +232,36 @@ module.exports = {
     
     actions.push({
       type: "add",
-      path: "{{ path }}/{{ name }}/src/store/index.js",
-      templateFile: "plop_templates/project/store/index.js.hbs",
+      path: "{{ path }}/{{ name }}/src/store/index.tsx",
+      templateFile: "plop_templates/project/store/index.tsx.hbs",
       data,
     })
     
     actions.push({
       type: "add",
-      path: "{{ path }}/{{ name }}/src/utils/constants.js",
-      templateFile: "plop_templates/project/utils/constants.js.hbs",
+      path: "{{ path }}/{{ name }}/src/utils/constants.tsx",
+      templateFile: "plop_templates/project/utils/constants.tsx.hbs",
       data,
     })
     
     actions.push({
       type: "add",
-      path: "{{ path }}/{{ name }}/src/App.js",
-      templateFile: "plop_templates/project/App.js.hbs",
+      path: "{{ path }}/{{ name }}/src/App.tsx",
+      templateFile: "plop_templates/project/App.tsx.hbs",
       data,
     })
     
     actions.push({
       type: "add",
-      path: "{{ path }}/{{ name }}/src/Initiator.js",
-      templateFile: "plop_templates/project/Initiator.js.hbs",
+      path: "{{ path }}/{{ name }}/Initiator.tsx",
+      templateFile: "plop_templates/project/Initiator.tsx.hbs",
       data,
     })
-    
-    // 5. Generate templates
-    // data..forEach((prop) => {
 
-    // . Start app 
+    // 5. Start app 
     actions.push(
       function () {
+        fs.renameSync(`${data.path}${data.name}/src/App.tsx`, `${data.path}${data.name}/App.tsx`);
 
         execSync(`npm run android`,{
           cwd: data.path + data.name,
