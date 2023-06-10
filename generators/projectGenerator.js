@@ -115,7 +115,10 @@ module.exports = {
       "eslint-plugin-react ",
       "eslint-plugin-react-hooks ",
       "eslint-plugin-unused-imports ",
-      "@types/node"
+      "@types/node",
+      "@testing-library/react-native",
+      "handlebars-helpers",
+      "plop"
     ]
     execSync(`npm install --save-dev ${dev_packages.join(' ')}`,{
       cwd: data.path + data.name,
@@ -129,7 +132,8 @@ module.exports = {
       "bundle-android": "react-native bundle --entry-file index.js  --platform android --dev false --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res",
       "release-build": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/build/intermediates/res/merged/release/ && cd android && gradlew assembleRelease && cd ..",
       "release-bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/build/intermediates/res/merged/release/ && cd android && gradlew bundleRelease && cd ..",
-      "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
+      "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
+      "plop": "cd plop && plop"
     })
     fs.writeFileSync(package_json_path, JSON.stringify(package_json, null, 2));
 
@@ -176,7 +180,12 @@ module.exports = {
       '.prettierrc.js',
       'editor.settings.jsonc',
       'babel.config.js',
-      'tsconfig.json'
+      'tsconfig.json',
+      ".vscode/settings.json",
+      "plop/plopfile.js",
+      "plop/generators/component.js",
+      "plop/templates/Components.hbs",
+      "plop/templates/Components.test.hbs",
     ];
     
     [...emptyFiles,...initiatedFiles].forEach(file => {
